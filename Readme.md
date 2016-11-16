@@ -11,8 +11,32 @@ Usage
 =====
 
 ```Ruby
-CODE EXAMPLE
+require 'stub_server'
+require 'open-uri'
+
+describe "Stub Server" do
+  let(:port) { 9123 }
+  let(:replies) { { "/hello" => [200, {}, ["World"]] } }
+  
+  it "can connect" do
+    StubServer.open(port, replies) do |server|
+      server.wait # takes ~4s before the server is reachable
+      expect(open("http://localhost:#{port}/hello").read).to eq "World"
+    end
+  end
+  
+  it "fails on unknown paths" do
+    StubServer.open(port, replies) do |server|
+      server.wait
+      expect { open("http://localhost:#{port}/no").read }.to raise_error(OpenURI::HTTPError)
+    end
+  end
+end
 ```
+
+ - Enable ssl `ssl: {cert: File.read(cert), key: File.read(key)}`
+ - override other options by passing in `WebBrick` options, see `lib/stub_server.rb`
+ - Use `json: true` to make all replies `.to_json` before sending, this is useful when modifying replies inside of tests 
 
 Author
 ======
