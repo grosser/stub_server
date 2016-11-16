@@ -1,0 +1,2 @@
+module StubServer
+end
