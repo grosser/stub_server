@@ -51,6 +51,3 @@ DEPENDENCIES
   rubocop
   single_cov
   stub_server!
-
-BUNDLED WITH
-   1.13.6

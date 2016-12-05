@@ -24,7 +24,8 @@ class StubServer
       options = {
         Port: @port,
         Logger: WEBrick::Log.new("/dev/null"),
-        AccessLog: []
+        AccessLog: [],
+        DoNotReverseLookup: true # http://stackoverflow.com/questions/1156759/webrick-is-very-slow-to-respond-how-to-speed-it-up
       }
 
       if @ssl
