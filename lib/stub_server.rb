@@ -25,7 +25,8 @@ class StubServer
         Port: @port,
         Logger: WEBrick::Log.new("/dev/null"),
         AccessLog: [],
-        DoNotReverseLookup: true # http://stackoverflow.com/questions/1156759/webrick-is-very-slow-to-respond-how-to-speed-it-up
+        DoNotReverseLookup: true, # http://stackoverflow.com/questions/1156759/webrick-is-very-slow-to-respond-how-to-speed-it-up
+        StartCallback: -> { @started = true }
       }
 
       if @ssl
@@ -48,18 +49,7 @@ class StubServer
   end
 
   def wait
-    Timeout.timeout(10) do
-      loop do
-        begin
-          socket = TCPSocket.new('localhost', @port)
-          socket.close if socket
-          sleep 0.1 if ENV['CI']
-          return
-        rescue Errno::ECONNREFUSED
-          nil
-        end
-      end
-    end
+    Timeout.timeout(10) { sleep 0.1 until @started }
   end
 
   def call(env)

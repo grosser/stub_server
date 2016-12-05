@@ -20,7 +20,7 @@ describe "Stub Server" do
   
   it "can connect" do
     StubServer.open(port, replies) do |server|
-      server.wait # takes ~4s before the server is reachable
+      server.wait # ~ 0.1s
       expect(open("http://localhost:#{port}/hello").read).to eq "World"
     end
   end
