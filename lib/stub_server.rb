@@ -17,6 +17,7 @@ class StubServer
     @ssl = ssl
     @json = json
     @webrick = webrick
+    @started = false
   end
 
   def boot
