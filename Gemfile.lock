@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    stub_server (0.1.0)
+    stub_server (0.2.0)
       rack
 
 GEM
@@ -51,3 +51,6 @@ DEPENDENCIES
   rubocop
   single_cov
   stub_server!
+
+BUNDLED WITH
+   1.13.6
