@@ -18,6 +18,7 @@ class StubServer
     @json = json
     @webrick = webrick
     @started = false
+    @server = nil
   end
 
   def boot
@@ -65,6 +66,6 @@ class StubServer
   end
 
   def shutdown
-    @server.shutdown if @server
+    @server&.shutdown
   end
 end

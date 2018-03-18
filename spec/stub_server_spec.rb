@@ -10,13 +10,13 @@ SingleCov.covered!
 
 describe StubServer do
   it "has a VERSION" do
-    expect(StubServer::VERSION).to match /^[\.\da-z]+$/
+    expect(StubServer::VERSION).to match(/^[\.\da-z]+$/)
   end
 
   describe "Readme" do
     before { allow_any_instance_of(StubServer).to receive(:warn) }
     code = File.read('Readme.md')[/```Ruby\n(.*?)```/m, 1]
-    eval(code) # rubocop:disable Lint/Eval
+    eval(code) # rubocop:disable Security/Eval
   end
 
   it "can connect via ssl" do
@@ -45,5 +45,11 @@ describe StubServer do
       expect(open("http://localhost:3000/hello").read).to eq "World"
       expect(devise.string).to include "Rack::Handler::WEBrick is invoked"
     end
+  end
+
+  it "does not crash when shutdown without server" do
+    expect(Rack::Handler::WEBrick).to receive(:run)
+    StubServer.open(3000, {"/hello" => [200, {}, ["World"]]}, &:shutdown)
+    sleep 0.1
   end
 end
