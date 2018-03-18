@@ -143,3 +143,6 @@ Layout/EmptyLineAfterMagicComment:
 
 Bundler/OrderedGems:
   Enabled: false
+
+Style/SymbolArray:
+  Enabled: false
