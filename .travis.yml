@@ -3,7 +3,8 @@ sudo: false
 cache: bundler
 branches:
   only: master
+before_install: gem install bundler
 rvm:
-  - 2.3.5
-  - 2.4.3
-  - 2.5.0
+  - 2.3.7
+  - 2.4.4
+  - 2.5.1
