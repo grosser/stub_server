@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    stub_server (0.2.1)
+    stub_server (0.3.0)
       rack
 
 GEM
