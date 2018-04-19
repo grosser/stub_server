@@ -18,10 +18,12 @@ class StubServer
     @json = json
     @webrick = webrick
     @started = false
+    @server = nil
+    @thread = nil
   end
 
   def boot
-    Thread.new do
+    @thread = Thread.new do
       options = {
         Port: @port,
         Logger: WEBrick::Log.new("/dev/null"),
@@ -65,6 +67,17 @@ class StubServer
   end
 
   def shutdown
-    @server.shutdown if @server
+    @server&.shutdown
+    @thread.join # need to wait here and cannot simpliy kill or webbrick keeps running
+
+    # TimeoutHandler keeps running forever which breaks tests that assert no extra threads
+    # we should only stop it if it is empty, otherwise we are still waiting for other servers
+    # ideally we'd use WEBrick::Utils::TimeoutHandler::TimeoutMutex.synchronize to avoid race conditions,
+    # but that is also used in .terminate and would lead to deadlocks ...
+    # TODO: open ruby issue for race-condition free terminate_if_empty
+    return if RUBY_VERSION < "2.4.0"
+    if WEBrick::Utils::TimeoutHandler.instance.instance_variable_get(:@timeout_info).empty?
+      WEBrick::Utils::TimeoutHandler.terminate
+    end
   end
 end

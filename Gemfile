@@ -4,7 +4,9 @@ gemspec
 
 gem "bump"
 gem "rake"
-gem "rspec"
+gem "maxitest"
+gem "mocha"
 gem "single_cov"
 gem "json"
 gem "rubocop"
+gem "wwtd"

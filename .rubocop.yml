@@ -13,7 +13,7 @@ LineLength:
 ClassLength:
   Enabled: false
 
-Style/CommentIndentation:
+Layout/CommentIndentation:
   Enabled: false
 
 Style/StringLiterals:
@@ -25,7 +25,7 @@ HashSyntax:
 Style/SignalException:
   Enabled: false
 
-Style/SpaceInsideHashLiteralBraces:
+Layout/SpaceInsideHashLiteralBraces:
   Enabled: false
 
 Lint/AmbiguousOperator:
@@ -37,17 +37,11 @@ Style/Lambda:
 Style/SpecialGlobalVars:
   Enabled: false
 
-Metrics/MethodLength:
-  Enabled: false
-
-Metrics/AbcSize:
-  Enabled: false
-
 Style/WordArray:
   Enabled: false
 
-Lint/EndAlignment:
-  AlignWith: variable
+Layout/EndAlignment:
+  EnforcedStyleAlignWith: variable
 
 Style/StringLiteralsInInterpolation:
   Enabled: false
@@ -55,25 +49,19 @@ Style/StringLiteralsInInterpolation:
 Style/NumericLiterals:
   Enabled: false
 
-Style/FirstParameterIndentation:
+Layout/FirstParameterIndentation:
   Enabled: false
 
-Style/IndentHash:
+Layout/IndentHash:
   Enabled: false
 
-Style/AlignParameters:
+Layout/AlignParameters:
   EnforcedStyle: with_fixed_indentation
 
-Style/MultilineOperationIndentation:
+Layout/MultilineOperationIndentation:
   Enabled: false
 
-Metrics/ModuleLength:
-  Enabled: false
-
-Metrics/PerceivedComplexity:
-  Enabled: false
-
-Metrics/CyclomaticComplexity:
+Metrics:
   Enabled: false
 
 Style/DoubleNegation:
@@ -85,16 +73,13 @@ Style/Documentation:
 Style/Next:
   Enabled: false
 
-Metrics/CyclomaticComplexity:
-  Enabled: false
-
-Style/MultilineMethodCallIndentation:
+Layout/MultilineMethodCallIndentation:
   Enabled: false
 
 Lint/AmbiguousRegexpLiteral:
   Enabled: false
 
-Style/DotPosition:
+Layout/DotPosition:
   EnforcedStyle: trailing
 
 Style/ClassAndModuleChildren:
@@ -129,16 +114,10 @@ Style/FormatString:
 Style/Alias:
   EnforcedStyle: prefer_alias_method
 
-Metrics/ParameterLists:
-  Enabled: false
-
 Lint/AssignmentInCondition:
   Enabled: false
 
 Style/SingleLineBlockParams:
-  Enabled: false
-
-Style/TrailingCommaInLiteral:
   Enabled: false
 
 Style/PerlBackrefs:
@@ -150,11 +129,20 @@ Style/IfUnlessModifier:
 Lint/ShadowingOuterLocalVariable:
   Enabled: false
 
-Style/VariableNumber:
+Naming/VariableNumber:
   Enabled: false
 
 Style/TernaryParentheses:
   Enabled: false
 
 Style/SafeNavigation:
+  Enabled: false
+
+Layout/EmptyLineAfterMagicComment:
+  Enabled: false
+
+Bundler/OrderedGems:
+  Enabled: false
+
+Style/SymbolArray:
   Enabled: false
