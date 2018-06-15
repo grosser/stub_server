@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    stub_server (0.3.0)
+    stub_server (0.4.0)
       rack
 
 GEM
@@ -20,7 +20,7 @@ GEM
     parser (2.5.0.5)
       ast (~> 2.4.0)
     powerpack (0.1.1)
-    rack (2.0.4)
+    rack (2.0.5)
     rainbow (3.0.0)
     rake (12.3.1)
     rubocop (0.54.0)
