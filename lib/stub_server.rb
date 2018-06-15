@@ -59,7 +59,7 @@ class StubServer
     path = env.fetch("PATH_INFO")
     code, headers, body = @replies[path]
     unless code
-      warn "StubServer: Missing reply for path #{path}" # some clients does not show current url when failing
+      warn "StubServer #{@port}: Missing reply for path #{path}" # some clients does not show current url when failing
       raise
     end
     body = [body.to_json] if @json
