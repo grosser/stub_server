@@ -57,12 +57,13 @@ class StubServer
 
   def call(env)
     path = env.fetch("PATH_INFO")
-    code, headers, body = @replies[path]
+    code, headers, body, delay = @replies[path]
     unless code
       warn "StubServer #{@port}: Missing reply for path #{path}" # some clients does not show current url when failing
       raise
     end
     body = [body.to_json] if @json
+    sleep(delay) if delay
     [code, headers, body]
   end
 
