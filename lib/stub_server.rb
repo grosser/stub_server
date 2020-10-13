@@ -47,7 +47,7 @@ class StubServer
 
       options.merge!(@webrick)
 
-      Rack::Handler::WEBrick.run(self, options) { |s| @server = s }
+      Rack::Handler::WEBrick.run(self, **options) { |s| @server = s }
     end
   end
 
