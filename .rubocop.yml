@@ -1,26 +1,16 @@
 AllCops:
-  DisplayCopNames: true
   CacheRootDirectory: tmp
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.5
+  NewCops: enable
   Exclude:
-    - db/schema.rb
-    - vendor/**/*
-    - tmp/**/*
-
-LineLength:
-  Max: 120
-
-ClassLength:
-  Enabled: false
+  - vendor/**/*
+  - tmp/**/*
 
 Layout/CommentIndentation:
   Enabled: false
 
 Style/StringLiterals:
   Enabled: false
-
-HashSyntax:
-   EnforcedStyle: ruby19
 
 Style/SignalException:
   Enabled: false
@@ -52,10 +42,10 @@ Style/NumericLiterals:
 Layout/FirstParameterIndentation:
   Enabled: false
 
-Layout/IndentHash:
+Layout/FirstHashElementIndentation:
   Enabled: false
 
-Layout/AlignParameters:
+Layout/ParameterAlignment:
   EnforcedStyle: with_fixed_indentation
 
 Layout/MultilineOperationIndentation:
@@ -145,4 +135,7 @@ Bundler/OrderedGems:
   Enabled: false
 
 Style/SymbolArray:
+  Enabled: false
+
+Layout/EmptyLineAfterGuardClause:
   Enabled: false

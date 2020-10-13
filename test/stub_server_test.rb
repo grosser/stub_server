@@ -28,7 +28,7 @@ describe StubServer do
   end
 
   it "has a VERSION" do
-    StubServer::VERSION.must_match(/^[\.\da-z]+$/)
+    StubServer::VERSION.must_match(/^[.\da-z]+$/)
   end
 
   describe "Readme" do
@@ -41,7 +41,7 @@ describe StubServer do
     ssl = {cert: File.read('test/test.cert'), key: File.read('test/test.key')}
     StubServer.open(port, {"/hello" => [200, {}, ["World"]]}, ssl: ssl) do |server|
       server.wait
-      open("https://localhost:#{port}/hello", ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE).read.must_equal "World"
+      URI.open("https://localhost:#{port}/hello", ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE).read.must_equal "World"
     end
   end
 
@@ -50,7 +50,7 @@ describe StubServer do
     StubServer.open(port, replies, json: true) do |server|
       server.wait
       replies["/hello"][2][:foo] = "changed"
-      open("http://localhost:#{port}/hello").read.must_equal '{"foo":"changed"}'
+      URI.open("http://localhost:#{port}/hello").read.must_equal '{"foo":"changed"}'
     end
   end
 
@@ -60,14 +60,14 @@ describe StubServer do
     logger = Logger.new(devise)
     StubServer.open(port, replies, webrick: {Logger: logger}) do |server|
       server.wait
-      open("http://localhost:#{port}/hello").read.must_equal "World"
+      URI.open("http://localhost:#{port}/hello").read.must_equal "World"
       devise.string.must_include "Rack::Handler::WEBrick is invoked"
     end
   end
 
   it "does not crash when shutdown without server" do
     Rack::Handler::WEBrick.expects(:run)
-    StubServer.open(port, "/hello" => [200, {}, ["World"]]) do |server|
+    StubServer.open(port, { "/hello" => [200, {}, ["World"]] }) do |server|
       Thread.pass
       sleep 1
       server.shutdown
@@ -77,12 +77,12 @@ describe StubServer do
 
   it "can nest servers" do
     called = nil
-    StubServer.open(port, "/hello" => [200, {}, ["World"]]) do |a|
-      StubServer.open(port + 1, "/hello" => [200, {}, ["World"]]) do |b|
+    StubServer.open(port, { "/hello" => [200, {}, ["World"]] }) do |a|
+      StubServer.open(port + 1, { "/hello" => [200, {}, ["World"]] }) do |b|
         a.wait
         b.wait
-        open("http://localhost:#{port}/hello").read.must_equal "World"
-        open("http://localhost:#{port + 1}/hello").read.must_equal "World"
+        URI.open("http://localhost:#{port}/hello").read.must_equal "World"
+        URI.open("http://localhost:#{port + 1}/hello").read.must_equal "World"
         called = 1
       end
     end
@@ -95,8 +95,8 @@ describe StubServer do
     it "does not shutdown timeout when it is still being used" do
       WEBrick::Utils::TimeoutHandler.register(5, RuntimeError)
 
-      StubServer.open(port, "/hello" => [200, {}, ["World"]]) do |_a|
-        open("http://localhost:#{port}/hello").read.must_equal "World"
+      StubServer.open(port, { "/hello" => [200, {}, ["World"]] }) do |_a|
+        URI.open("http://localhost:#{port}/hello").read.must_equal "World"
       end
 
       # should not be terminated since we might still need it
@@ -106,8 +106,8 @@ describe StubServer do
 
     it "can use timeout after shutdown" do
       # create a terminated timeout handler
-      StubServer.open(port, "/hello" => [200, {}, ["World"]]) do |_a|
-        open("http://localhost:#{port}/hello").read.must_equal "World"
+      StubServer.open(port, { "/hello" => [200, {}, ["World"]] }) do |_a|
+        URI.open("http://localhost:#{port}/hello").read.must_equal "World"
       end
 
       # check if it still works

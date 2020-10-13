@@ -21,14 +21,14 @@ describe "Stub Server" do
   it "can connect" do
     StubServer.open(port, replies) do |server|
       server.wait # ~ 0.1s
-      open("http://localhost:#{port}/hello").read.must_equal "World"
+      URI.open("http://localhost:#{port}/hello").read.must_equal "World"
     end
   end
   
   it "fails on unknown paths" do
     StubServer.open(port, replies) do |server|
       server.wait
-      assert_raises(OpenURI::HTTPError) { open("http://localhost:#{port}/no").read }
+      assert_raises(OpenURI::HTTPError) { URI.open("http://localhost:#{port}/no").read }
     end
   end
 end

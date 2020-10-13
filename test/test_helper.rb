@@ -7,6 +7,7 @@ SingleCov.setup :minitest
 require "stub_server/version"
 require "stub_server"
 
+require "maxitest/global_must"
 require "maxitest/autorun"
 require "maxitest/timeout"
 require "maxitest/threads"
