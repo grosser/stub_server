@@ -11,4 +11,5 @@ Gem::Specification.new name, StubServer::VERSION do |s|
   s.license = "MIT"
   s.required_ruby_version = '>= 2.5.0'
   s.add_runtime_dependency "rack"
+  s.add_runtime_dependency "webrick"
 end

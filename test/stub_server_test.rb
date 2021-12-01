@@ -4,11 +4,9 @@ require "open-uri"
 require "json"
 require "logger"
 
-Thread.abort_on_exception = true
+# Thread.abort_on_exception = true
 
-SKIP_TIMEOUT_HANDLERS = (RUBY_VERSION < "2.4.0" || ENV["TRAVIS"])
-
-SingleCov.covered! uncovered: (SKIP_TIMEOUT_HANDLERS ? 2 : 1)
+SingleCov.covered!
 
 describe StubServer do
   def port_free?
@@ -17,9 +15,8 @@ describe StubServer do
 
   let(:port) { 3214 }
 
+  before { assert port_free?, "port is still in use" }
   after do
-    # we need to cleanup since ruby 2.3 cannot do it
-    WEBrick::Utils::TimeoutHandler.instance.instance_variable_get(:@watcher).kill.join if RUBY_VERSION < "2.4.0"
     if maxitest_extra_threads.any? # give stragglers a chance, ideally should not be necessary
       puts "Extra thread found, waiting 1s"
       sleep 1
@@ -90,29 +87,30 @@ describe StubServer do
   end
 
   describe "timout handler" do
-    before { skip "does not work on travis + old rubies" } if SKIP_TIMEOUT_HANDLERS
-
     it "does not shutdown timeout when it is still being used" do
       WEBrick::Utils::TimeoutHandler.register(5, RuntimeError)
-
-      StubServer.open(port, { "/hello" => [200, {}, ["World"]] }) do |_a|
+      StubServer.open(port, { "/hello" => [200, {}, ["World"]] }) do |a|
+        a.wait
         URI.open("http://localhost:#{port}/hello").read.must_equal "World"
       end
 
       # should not be terminated since we might still need it
       refute WEBrick::Utils::TimeoutHandler.instance.instance_variable_get(:@timeout_info).empty?
+    ensure
       WEBrick::Utils::TimeoutHandler.terminate
     end
 
     it "can use timeout after shutdown" do
       # create a terminated timeout handler
-      StubServer.open(port, { "/hello" => [200, {}, ["World"]] }) do |_a|
+      StubServer.open(port, { "/hello" => [200, {}, ["World"]] }) do |a|
+        a.wait
         URI.open("http://localhost:#{port}/hello").read.must_equal "World"
       end
 
       # check if it still works
       WEBrick::Utils::TimeoutHandler.register(0, RuntimeError)
       assert_raises { sleep 2 }
+    ensure
       WEBrick::Utils::TimeoutHandler.terminate
     end
   end

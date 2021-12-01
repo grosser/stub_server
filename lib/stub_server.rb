@@ -75,7 +75,6 @@ class StubServer
     # ideally we'd use WEBrick::Utils::TimeoutHandler::TimeoutMutex.synchronize to avoid race conditions,
     # but that is also used in .terminate and would lead to deadlocks ...
     # TODO: open ruby issue for race-condition free terminate_if_empty
-    return if RUBY_VERSION < "2.4.0"
     if WEBrick::Utils::TimeoutHandler.instance.instance_variable_get(:@timeout_info).empty?
       WEBrick::Utils::TimeoutHandler.terminate
     end
