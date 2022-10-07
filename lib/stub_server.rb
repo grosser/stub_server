@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'rack'
+require 'rackup'
 require 'webrick'
 
 class StubServer
@@ -47,7 +47,7 @@ class StubServer
 
       options.merge!(@webrick)
 
-      Rack::Handler::WEBrick.run(self, **options) { |s| @server = s }
+      Rackup::Handler::WEBrick.run(self, **options) { |s| @server = s }
     end
   end
 
