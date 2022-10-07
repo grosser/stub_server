@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    stub_server (0.6.0)
+    stub_server (0.7.0)
       rackup (~> 0.2.2)
       webrick
 
