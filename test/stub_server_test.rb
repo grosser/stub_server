@@ -58,12 +58,12 @@ describe StubServer do
     StubServer.open(port, replies, webrick: {Logger: logger}) do |server|
       server.wait
       URI.open("http://localhost:#{port}/hello").read.must_equal "World"
-      devise.string.must_include "Rack::Handler::WEBrick is invoked"
+      devise.string.must_include "Rackup::Handler::WEBrick is invoked"
     end
   end
 
   it "does not crash when shutdown without server" do
-    Rack::Handler::WEBrick.expects(:run)
+    Rackup::Handler::WEBrick.expects(:run)
     StubServer.open(port, { "/hello" => [200, {}, ["World"]] }) do |server|
       Thread.pass
       sleep 1

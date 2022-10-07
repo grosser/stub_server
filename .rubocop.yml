@@ -2,6 +2,7 @@ AllCops:
   CacheRootDirectory: tmp
   TargetRubyVersion: 2.5
   NewCops: enable
+  SuggestExtensions: false
   Exclude:
   - vendor/**/*
   - tmp/**/*
